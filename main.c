@@ -35,9 +35,18 @@ int main(int argc, char **argv) {
 				return EXIT_FAILURE;
 			}
 
-			printf("%lu\n", fs.f_bavail * fs.f_frsize);
+			const unsigned long free = fs.f_bfree * fs.f_frsize;
+			const unsigned long avail = fs.f_bavail * fs.f_frsize;
+			const unsigned long used = (fs.f_blocks - fs.f_bfree) * fs.f_frsize;
+			const unsigned long total = fs.f_blocks * fs.f_frsize;
+
+			printf("%s_free|int|%lu\n", paths[i], free);
+			printf("%s_avail|int|%lu\n", paths[i], avail);
+			printf("%s_used|int|%lu\n", paths[i], used);
+			printf("%s_total|int|%lu\n", paths[i], total);
 		}
 
+		putchar('\n');
 		fflush(stdout);
 		sleep(interval);
 	}
