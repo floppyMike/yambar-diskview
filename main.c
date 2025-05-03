@@ -4,6 +4,8 @@
 #include <unistd.h>
 
 int main(int argc, char **argv) {
+	setvbuf(stdout, NULL, _IOFBF, 0); // Disable line flushing for stdout. Prefer manual.
+
 	if (argc < 3) {
 		fprintf(stderr, "Usage: %s <interval_seconds> <path1> [path2 ... pathN]\n", argv[0]);
 		return EXIT_FAILURE;
@@ -36,6 +38,7 @@ int main(int argc, char **argv) {
 			printf("%lu\n", fs.f_bavail * fs.f_frsize);
 		}
 
+		fflush(stdout);
 		sleep(interval);
 	}
 
